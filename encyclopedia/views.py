@@ -11,11 +11,10 @@ def index(request):
     })
 
 def wiki_entry(request, wiki_entry):
-    try:
-        markdown_file_path = f'entries/{wiki_entry}.md'
-        html_from_markdown = markdown2.markdown_path(markdown_file_path)
-        return HttpResponse(html_from_markdown)
-    except FileNotFoundError as e:
+    markdown_page = util.get_entry(wiki_entry)
+    if markdown_page == None:
         return HttpResponse('<p>markdown file not found</p>')
-    
+    else:
+        markdown_to_html = markdown2.markdown(markdown_page)
+        return HttpResponse(markdown_to_html)
 

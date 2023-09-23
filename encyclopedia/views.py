@@ -16,5 +16,5 @@ def wiki_entry(request, wiki_entry):
         return render(request, 'encyclopedia/error.html')
     else:
         markdown_to_html = markdown2.markdown(markdown_page)
-        return HttpResponse(markdown_to_html)
+        return HttpResponse(f'<title>{wiki_entry}</title>'+markdown_to_html)
 

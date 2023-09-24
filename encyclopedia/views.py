@@ -1,13 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import markdown2
+from django import forms
 
 from . import util
 
+class SearchForm(forms.Form):
+    search_input = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Search Encyclopedia'}))
+
+def get_entry_html(entry_markdown, entry):
+    markdown_to_html = markdown2.markdown(entry_markdown)
+    return HttpResponse(f'<title>{entry}</title>'+markdown_to_html)
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
+        "entries": util.list_entries(),
+        # 'form': SearchForm()
     })
 
 def wiki_entry(request, wiki_entry):
@@ -15,6 +23,24 @@ def wiki_entry(request, wiki_entry):
     if markdown_page == None:
         return render(request, 'encyclopedia/error.html')
     else:
-        markdown_to_html = markdown2.markdown(markdown_page)
-        return HttpResponse(f'<title>{wiki_entry}</title>'+markdown_to_html)
+        return get_entry_html(markdown_page, wiki_entry)
+
+def search(request):
+
+    query_string = request.GET.get('q')
+    available_entries = [entry.lower() for entry in util.list_entries()]
+
+    # check for an exact match for the query string in available entries
+    if query_string in available_entries:
+        entry_to_render = util.list_entries()[available_entries.index(query_string)]
+        markdown_page = util.get_entry(entry_to_render)
+        return get_entry_html(markdown_page, entry_to_render)
+
+
+    # get all entries in which query_string is a substring if no exact match found. returned list may be empty
+    filtered_entries = [entry for entry in util.list_entries() if query_string.lower() in entry.lower()]
+    return render(request, 'encyclopedia/search_results.html', {
+        "entries": filtered_entries
+    })
+    
 

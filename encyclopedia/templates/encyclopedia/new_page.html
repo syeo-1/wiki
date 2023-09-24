@@ -1,0 +1,30 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Create a New Entry
+{% endblock %}
+
+{% block body %}
+    <h1>Create a New Entry</h1>
+    {% comment %} <form action="{% url 'new_entry' %}" method="get">
+        <input type="text">
+        <textarea name="new_entry" id="" cols="30" rows="10"></textarea>
+        <input type="submit">
+    </form> {% endcomment %}
+    {% comment %} {{form}} {% endcomment %}
+    <div>
+        <form action="submit">
+            <div>
+                <p class="new-entry-labels"><label for="">Add Title</label></p>
+                <input type="text" label="hello">
+            </div>
+            <div>
+                <p class="new-entry-labels"><label for="">Add Entry</label></p>
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+            </div>
+            <div>
+                <input type="submit" value='submit'>
+            </div>
+        </form>
+    </div>
+{% endblock %}

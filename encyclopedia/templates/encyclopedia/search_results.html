@@ -9,7 +9,6 @@
 
     <ul>
         {% for entry in entries %}
-            {% comment %} <li>{{ entry }}</li> {% endcomment %}
             <li><a href="/{{ entry }}">{{ entry }}</a></li>
         {% empty %}
             <li>No search results from query.</li>

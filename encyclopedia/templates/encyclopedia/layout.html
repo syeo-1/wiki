@@ -15,7 +15,6 @@
                 <form method='get' action="{% url 'search' %}">
                     {% csrf_token %}
                     <input class="search" type="text" name="q" placeholder="Search Encyclopedia" >
-                    {% comment %} {{ form }} {% endcomment %}
                 </form>
                 <div>
                     <a href="{% url 'index' %}">Home</a>

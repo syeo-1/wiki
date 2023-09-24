@@ -5,9 +5,6 @@ from django import forms
 
 from . import util
 
-class SearchForm(forms.Form):
-    search_input = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Search Encyclopedia'}))
-
 def get_entry_html(entry_markdown, entry):
     markdown_to_html = markdown2.markdown(entry_markdown)
     return HttpResponse(f'<title>{entry}</title>'+markdown_to_html)

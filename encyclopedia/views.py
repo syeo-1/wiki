@@ -21,12 +21,12 @@ def index(request):
     })
 
 def wiki_entry(request, wiki_entry):
+    print('aweofihawe')
     markdown_page = util.get_entry(wiki_entry)
     if markdown_page == None:
         return render(request, 'encyclopedia/error.html')
     else:
         print('test')
-        # return HttpResponse(get_entry_html(markdown_page, wiki_entry))
         return render(request, 'encyclopedia/entry.html', {
             'entry_title': wiki_entry,
             'entry_html': get_entry_html(markdown_page, wiki_entry)
@@ -44,7 +44,6 @@ def search(request):
         print('test')
         entry_to_render = util.list_entries()[available_entries.index(query_string)]
         markdown_page = util.get_entry(entry_to_render)
-        # return HttpResponse(get_entry_html(markdown_page, entry_to_render))
         return render(request, 'encyclopedia/entry.html', {
             'entry_title': entry_to_render,
             'entry_html': get_entry_html(markdown_page, entry_to_render)
@@ -88,7 +87,7 @@ def new_entry(request):
                 'form': NewEntryForm()
             })
 
-        markdown = util.get_entry(user_title)
-        return HttpResponse(get_entry_html(markdown, user_title))
+        # markdown = util.get_entry(user_title)
+        return HttpResponseRedirect(reverse(f'wiki:{user_title}'))
         
 

@@ -32,6 +32,8 @@ def get_entry(title):
     """
     try:
         f = default_storage.open(f"entries/{title}.md")
+        file_contents = f.read().decode('utf-8')
+        print(repr(f'raw file contents are: {file_contents}'))
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None

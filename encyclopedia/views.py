@@ -27,6 +27,7 @@ def wiki_entry(request, wiki_entry):
         return render(request, 'encyclopedia/error.html')
     else:
         print('test')
+        print(markdown_page)
         return render(request, 'encyclopedia/entry.html', {
             'entry_title': wiki_entry,
             'entry_html': get_entry_html(markdown_page, wiki_entry)
@@ -57,17 +58,6 @@ def search(request):
     })
 
 def new_entry(request):
-    # on submission what should happen?
-    # it should go to the add endpoint? and then call some function to generate html for the given markdown contents provided
-    # then it should return the html for the markdown
-    
-    # at the same time, it should generate a new markdown file within the entries directory
-
-    # upon saving the created markdown file to the entries directory, it should then bring the user to their newly created page!
-
-    ####
-    # for now, try to make sure when a title and entry are given, they are printed to console
-    # on submission, the user will just be brought back to the home page
     if request.method == 'GET':
         return render(request, 'encyclopedia/new_page.html', {
             'form': NewEntryForm()
@@ -77,17 +67,11 @@ def new_entry(request):
         user_entry = request.POST.get('new_markdown_entry')
 
         # create the markdown file in the entries directory if it doesn't exist
-        if not os.path.exists(f'entries/{user_title}.md'):
-            user_entry = user_entry.replace('\r\n\r\n', '\r\n') # remove double newline that somehow gets added in
-            file = open(f'entries/{user_title}.md', 'w+')
-            file.write(user_entry)
-        else:
-            print('file already exists!')
-            return render(request, 'encyclopedia/new_page.html', {
-                'form': NewEntryForm()
-            })
+        util.save_entry(user_title, user_entry)
 
-        # markdown = util.get_entry(user_title)
-        return HttpResponseRedirect(reverse(f'wiki:{user_title}'))
+        return render(request, 'encyclopedia/entry.html', {
+            'entry_title': wiki_entry,
+            'entry_html': get_entry_html(user_entry, wiki_entry)
+        })
         
 

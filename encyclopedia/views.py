@@ -75,15 +75,27 @@ def new_entry(request):
         })
 
 def edit_entry(request, wiki_entry):
-    # retrieve the entry that the user wants to edit
-    entry_markdown = util.get_entry(wiki_entry)
+    if request.method == 'POST':
+        # save the entry to storage and redirect back to the entry page
+        user_entry = request.POST.get('edited_markdown_entry')
 
-    # render the form with the contents
+        util.save_entry(wiki_entry, user_entry)
 
-    # create it so it's like the new entry thing except that the title doesn't change
-        
-    return render(request, "encyclopedia/edit.html", {
-        'title': wiki_entry,
-        'entry': entry_markdown
-    })
+        return render(request, 'encyclopedia/entry.html', {
+            'entry_title': wiki_entry,
+            'entry_html': get_entry_html(user_entry, wiki_entry)
+        })
+    else:
+        # retrieve the entry that the user wants to edit
+        entry_markdown = util.get_entry(wiki_entry)
+
+        # render the form with the contents
+
+        # create it so it's like the new entry thing except that the title doesn't change
+            
+        return render(request, "encyclopedia/edit.html", {
+            'title': wiki_entry,
+            'entry': entry_markdown
+        })
+
 

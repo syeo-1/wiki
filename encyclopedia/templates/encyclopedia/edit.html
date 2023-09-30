@@ -14,10 +14,10 @@
     {% comment %} {{form}} {% endcomment %}
     <div>
         {% comment %} TODO: the form should redirect to the new page you just created for the action!!!!! {% endcomment %}
-        <form method="put">
+        <form method="post">
             {% csrf_token %}
             <div>
-                <textarea name="new_markdown_entry" id="" cols="30" rows="10">{{ entry |safe}}</textarea>
+                <textarea name="edited_markdown_entry" id="" cols="30" rows="10">{{ entry |safe}}</textarea>
             </div>
             <div>
                 <input type="submit" value='submit'>

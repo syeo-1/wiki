@@ -27,7 +27,7 @@ def wiki_entry(request, wiki_entry):
         return render(request, 'encyclopedia/error.html')
     else:
         print('test')
-        print(markdown_page)
+        print(repr(markdown_page))
         return render(request, 'encyclopedia/entry.html', {
             'entry_title': wiki_entry,
             'entry_html': get_entry_html(markdown_page, wiki_entry)
@@ -73,5 +73,16 @@ def new_entry(request):
             'entry_title': wiki_entry,
             'entry_html': get_entry_html(user_entry, wiki_entry)
         })
+
+def edit_entry(request, wiki_entry):
+    # retrieve the entry that the user wants to edit
+
+    # render the form with the contents
+
+    # create it so it's like the new entry thing except that the title doesn't change
         
+    return render(request, "encyclopedia/edit.html", {
+        'title': wiki_entry,
+        'entry': '<p>hello world</p>'
+    })
 

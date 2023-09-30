@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 import markdown2
 from django.urls import reverse
 from django import forms
+from random import randrange
 import os
 
 from . import util
@@ -97,5 +98,18 @@ def edit_entry(request, wiki_entry):
             'title': wiki_entry,
             'entry': entry_markdown
         })
+    
+def random_entry(request):
+    entries = util.list_entries()
+    entry_index = randrange(len(entries))
+    random_entry = util.get_entry(entries[entry_index])
+
+    # markdown_page = util.get_entry(entries[entry_index])
+    return render(request, 'encyclopedia/entry.html', {
+        'entry_title': entries[entry_index],
+        'entry_html': get_entry_html(random_entry, entries[entry_index])
+    })
+
+
 
 

@@ -76,6 +76,7 @@ def new_entry(request):
 
 def edit_entry(request, wiki_entry):
     # retrieve the entry that the user wants to edit
+    entry_markdown = util.get_entry(wiki_entry)
 
     # render the form with the contents
 
@@ -83,6 +84,6 @@ def edit_entry(request, wiki_entry):
         
     return render(request, "encyclopedia/edit.html", {
         'title': wiki_entry,
-        'entry': '<p>hello world</p>'
+        'entry': entry_markdown
     })
 
